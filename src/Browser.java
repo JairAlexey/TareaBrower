@@ -12,6 +12,7 @@ public class Browser extends JFrame{
     private JTextArea Mostrar;
     private JPanel Jpanel1;
     private JPanel JPanel2;
+    private JButton Limpiar;
 
     private Stack<String> browser = new Stack<>();
     private Stack<String> browserAhead = new Stack<>();
@@ -22,14 +23,14 @@ public class Browser extends JFrame{
 
         Back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                UndoAction();
+                BackAction();
                 RefreshTextArea();
             }
         });
 
         Forward.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ForwardWebToStack();
+                ForwardAction();
                 RefreshTextArea();
             }
         });
@@ -41,11 +42,18 @@ public class Browser extends JFrame{
             }
         });
 
+        Limpiar.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+               Limpiar();
+            }
+        });
+
         Back.setEnabled(false);
         Forward.setEnabled(false);
     }
 
-    private void ForwardWebToStack() {
+    private void ForwardAction() {
         if(browserAhead.isEmpty()){
             Forward.setEnabled(false);
             return;
@@ -53,7 +61,7 @@ public class Browser extends JFrame{
         browser.push(browserAhead.pop());
     }
 
-    private void UndoAction() {
+    private void BackAction() {
         if(browser.isEmpty()) return;
 
         browserAhead.push(browser.pop());
@@ -67,10 +75,16 @@ public class Browser extends JFrame{
     }
 
     private void AddWebToStack(){
-        browser.push("Website #"+browser.size());
+        //browser.push("Website #"+browser.size());
+        browser.push(Ingresar.getText());
         browserAhead.clear();
 
         Back.setEnabled(true);
         Forward.setEnabled(false);
     }
+
+    private void Limpiar(){
+        Ingresar.setText("");
+    }
+
 }
